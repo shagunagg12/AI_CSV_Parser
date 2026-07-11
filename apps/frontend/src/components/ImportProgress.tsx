@@ -20,11 +20,11 @@ export default function ImportProgress({ jobId, onComplete }: ImportProgressProp
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const sse = new EventSource(`http://localhost:5000/api/import/progress/${jobId}`);
+    const sse = new EventSource(`${process.env.NEXT_PUBLIC_API_URL}/api/import/progress/${jobId}`);
 
     sse.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      
+
       setStats({
         total: data.totalRecords || 0,
         processed: data.processedRecords || 0,

@@ -21,18 +21,18 @@ export default function Home() {
 
   const handleConfirm = async () => {
     if (!csvFile) return;
-    
+
     setIsStarting(true);
     setErrorMessage(null);
     try {
       const formData = new FormData();
       formData.append("file", csvFile);
 
-      const res = await fetch("http://localhost:5000/api/import/start", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/import/start`, {
         method: "POST",
         body: formData,
       });
-      
+
       const data = await res.json();
       if (res.ok && data.jobId) {
         setJobId(data.jobId);
@@ -54,7 +54,7 @@ export default function Home() {
   const handleJobComplete = async () => {
     if (!jobId) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/import/results/${jobId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/import/results/${jobId}`);
       if (res.ok) {
         const data = await res.json();
         setFinalResults(data);
@@ -75,7 +75,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-8 font-sans">
       <div className="max-w-6xl mx-auto space-y-8">
-        
+
         <header className="text-center space-y-4">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
             AI-Powered CSV Importer
@@ -93,7 +93,7 @@ export default function Home() {
           {csvData && !jobId && (
             <div className="space-y-6 fade-in">
               <PreviewTable data={csvData} />
-              
+
               {errorMessage && (
                 <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium border border-red-200 dark:border-red-800">
                   {errorMessage}
@@ -121,11 +121,11 @@ export default function Home() {
           {jobId && (
             <div className="fade-in space-y-8">
               <ImportProgress jobId={jobId} onComplete={handleJobComplete} />
-              
+
               {finalResults && (
-                <ResultTable 
-                  imported={finalResults.imported} 
-                  skipped={finalResults.skipped} 
+                <ResultTable
+                  imported={finalResults.imported}
+                  skipped={finalResults.skipped}
                 />
               )}
 
