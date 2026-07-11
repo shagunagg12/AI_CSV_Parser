@@ -15,7 +15,7 @@ export const startImport = (req: Request, res: Response) => {
       skipEmptyLines: true,
       complete: (results) => {
         const rows = results.data as Record<string, string>[];
-        
+
         if (rows.length === 0) {
           return res.status(400).json({ error: "Empty CSV file." });
         }
@@ -39,15 +39,15 @@ export const startImport = (req: Request, res: Response) => {
 };
 
 export const streamProgress = (req: Request, res: Response) => {
-  const { jobId } = req.params;
-  
+  const jobId = Array.isArray(req.params.jobId) ? req.params.jobId[0] : req.params.jobId;
+
   if (!jobId) {
     return res.status(400).json({ error: "Missing jobId parameter" });
   }
 
   // Subscribes the response object to SSE updates
   subscribeClient(jobId, res);
-  
+
   req.on('close', () => {
     // Client disconnected, handled in subscribeClient if needed, but we rely on simple end for now
     console.log(`Client disconnected from job ${jobId}`);
@@ -55,7 +55,7 @@ export const streamProgress = (req: Request, res: Response) => {
 };
 
 export const getResults = (req: Request, res: Response) => {
-  const { jobId } = req.params;
+  const jobId = Array.isArray(req.params.jobId) ? req.params.jobId[0] : req.params.jobId;
   if (!jobId) {
     return res.status(400).json({ error: "Missing jobId parameter" });
   }
