@@ -57,5 +57,5 @@ A `Dockerfile` is provided in `apps/backend`.
 - **Client-side Parsing**: CSVs are parsed locally in the browser to save server bandwidth and instantly preview data.
 - **Virtualized Table**: Can render 100k+ rows without freezing the browser.
 - **AI Schema Mapping**: Uses Google's Gemini to map messy/dynamic columns to a strict CRM schema, intelligently merging fields like multiple phone numbers into notes.
-- **Batch Processing & SSE**: The backend chunks the data and streams progress back to the frontend in real-time, handling API rate limits and long-running tasks efficiently.
+- **Batch Processing & SSE**: The backend chunks the data and streams progress back to the frontend in real-time, handling API rate limits and long-running tasks efficiently
 - **Dark Mode**: Fully supported via Tailwind CSS.
