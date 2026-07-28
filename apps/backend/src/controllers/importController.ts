@@ -42,7 +42,7 @@ export const streamProgress = (req: Request, res: Response) => {
   const jobId = Array.isArray(req.params.jobId) ? req.params.jobId[0] : req.params.jobId;
 
   if (!jobId) {
-    return res.status(400).json({ error: "Missing jobId parameter" });
+    return res.status(400).json({ error: "Missing jobId parameter" }) ;
   }
 
   // Subscribes the response object to SSE updates
